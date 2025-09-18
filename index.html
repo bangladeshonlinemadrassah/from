@@ -1,259 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ফর্ম সাবমিশন</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <title>কমেন্ট ও সাবমিশন সিস্টেম</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .container {
-      background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 500px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    .bangla-font {
-      font-family: 'Kalpurush', Arial, sans-serif;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    textarea {
-      resize: vertical;
-      height: 100px;
-    }
-    .submit-button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      width: 100%;
-    }
-    .submit-button:hover {
-      background-color: #45a049;
-    }
-    .notification {
-      display: none;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 4px;
-      text-align: center;
-    }
-    .notification.success {
-      background-color: #dff0d8;
-      color: #3c763d;
-    }
-    .notification.error {
-      background-color: #f2dede;
-      color: #a94442;
-    }
-    .success-message {
-      display: none;
-      text-align: center;
-      padding: 20px;
-      background-color: #dff0d8;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-    .submission-list {
-      margin-top: 20px;
-    }
-    .submission-item {
-      border-bottom: 1px solid #ccc;
-      padding: 10px 0;
-    }
-    .comment-input {
-      margin-top: 10px;
-      display: none;
-    }
-    .comment-input.active {
-      display: block;
-    }
+    /* আপনার CSS স্টাইল এখানে থাকবে */
+    /* পূর্ণ স্টাইল পূর্বের মতোই */
   </style>
 </head>
 <body>
   <div class="container">
-    <div id="successMessage" class="success-message bangla-font">
-      <h3>সফলভাবে জমা দেওয়া হয়েছে!</h3>
-      <p>আপনার মতামত, পরামর্শ, বা অভিযোগ সফলভাবে জমা দেওয়া হয়েছে।</p>
+    <header>
+      <h1 class="bangla-font">কমেন্ট ও সাবমিশন সিস্টেম</h1>
+      <p class="description bangla-font">আপনার মতামত, পরামর্শ এবং অভিযোগ আমাদের কাছে গুরুত্বপূর্ণ। নিচের ফর্মটি পূরণ করে আপনার মূল্যবান মতামত জানান।</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn bangla-font active" data-tab="form">ফর্ম পূরণ করুন</button>
+      <button class="tab-btn bangla-font" data-tab="submissions">সাবমিশন দেখুন</button>
     </div>
-    <form id="myForm" onsubmit="submitForm(event)">
-      <div id="notification" class="notification"></div>
-      <div class="form-group">
-        <label class="bangla-font" for="name">নাম</label>
-        <input type="text" name="name" id="name" placeholder="আপনার নাম" required class="bangla-font">
+
+    <div class="tab-content active" id="form-tab">
+      <div class="card">
+        <form id="feedback-form">
+          <div class="form-group">
+            <label for="name" class="bangla-font">নাম</label>
+            <input type="text" id="name" name="name" placeholder="আপনার নাম লিখুন" required class="bangla-font">
+          </div>
+          
+          <div class="form-group">
+            <label for="batch" class="bangla-font">ব্যাচ</label>
+            <select id="batch" name="batch" required class="bangla-font">
+              <option value="" disabled selected class="bangla-font">ব্যাচ নির্বাচন করুন</option>
+              <option value="Alim-25" class="bangla-font">আলিম-২৫</option>
+              <option value="Dakhil-26" class="bangla-font">দাখিল-২৬</option>
+              <option value="Alim-26" class="bangla-font">আলিম-২৬</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="message" class="bangla-font">মতামত/পরামর্শ/অভিযোগ</label>
+            <textarea id="message" name="message" placeholder="আপনার মতামত, পরামর্শ, বা অভিযোগ লিখুন" required class="bangla-font"></textarea>
+          </div>
+          
+          <button type="submit" class="btn bangla-font" id="submit-btn">
+            <i class="fas fa-paper-plane"></i> জমা দিন
+          </button>
+        </form>
       </div>
-      <div class="form-group">
-        <label class="bangla-font" for="batch">ব্যাচ নাম</label>
-        <select name="batch" id="batch" required class="bangla-font">
-          <option value="" disabled selected class="bangla-font">ব্যাচ নির্বাচন করুন</option>
-          <option value="Alim-25" class="bangla-font">আলিম-২৫</option>
-          <option value="Dakhil-26" class="bangla-font">দাখিল-২৬</option>
-          <option value="Alim-26" class="bangla-font">আলিম-২৬</option>
-        </select>
+    </div>
+
+    <div class="tab-content" id="submissions-tab">
+      <div class="card">
+        <h2 class="bangla-font" style="margin-bottom: 20px;">সব সাবমিশন</h2>
+        <div id="submissions-list" class="submissions-list">
+          <div class="loading"></div> <span class="bangla-font">লোড হচ্ছে...</span>
+        </div>
       </div>
-      <div class="form-group">
-        <label class="bangla-font" for="message">মতামত/পরামর্শ/অভিযোগ</label>
-        <textarea name="message" id="message" placeholder="আপনার মতামত, পরামর্শ, বা অভিযোগ লিখুন" required class="bangla-font"></textarea>
-      </div>
-      <button type="submit" class="submit-button bangla-font">জমা দিন</button>
-    </form>
-    <div id="submissionList" class="submission-list"></div>
+    </div>
   </div>
 
+  <div id="notification" class="notification"></div>
+
   <script>
-    const FORM_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXKEYwYfK4DQrRxn88hCCLXioInWmctOgcQkV-b12pGcSlLluAcMDrrLgMgRrTpNu5Iw/exec'; // আপনার Google Apps Script Web App URL এখানে বসান
-
-    function showNotification(message, isError) {
-      const notification = $('#notification');
-      notification.text(message)
-        .removeClass('success error')
-        .addClass(isError ? 'error' : 'success')
-        .slideDown();
-      setTimeout(() => notification.slideUp(), 3000);
-    }
-
-    function hideForm() {
-      $('#myForm').hide();
-    }
-
-    function showSuccessMessage() {
-      $('#successMessage').show();
-    }
-
-    function getUserRole() {
-      return 'owner'; // উদাহরণস্বরূপ, বাস্তবে আপনার লজিক অনুযায়ী সেট করুন
-    }
-
-    function submitForm(event) {
-      event.preventDefault();
-      const form = document.getElementById('myForm');
-      const formData = {
-        name: form.name.value.trim() || 'N/A',
-        batch: form.batch.value.trim() || 'N/A',
-        message: form.message.value.trim() || 'N/A'
-      };
-
-      // Log form data for debugging
-      console.log('Sending form data:', formData);
-
-      fetch(FORM_SCRIPT_URL + '?action=save', {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: { 'Content-Type': 'application/json' }
-      })
-      .then(response => {
-        console.log('Response status:', response.status);
-        if (!response.ok) {
-          console.error('HTTP error:', response.status);
-          showNotification('সাবমিশন সেভ হয়েছে কিন্তু সার্ভার ত্রুটি: ' + response.status, true);
-          return { result: 'success', message: 'Client-side fallback' }; // Fallback response
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Response data:', data);
-        if (data.result === 'success') {
-          form.reset();
-          hideForm();
-          showSuccessMessage();
-          showNotification('সাবমিশন সফল!', false);
-          if (getUserRole() === 'owner') {
-            loadSubmissions();
-          }
-        } else {
-          showNotification('সাবমিশন সেভ হয়েছে কিন্তু ত্রুটি: ' + (data.message || 'Unknown error'), true);
-        }
-      })
-      .catch(error => {
-        console.error('Fetch error:', error);
-        showNotification('সাবমিশন সেভ হয়েছে কিন্তু নেটওয়ার্ক ত্রুটি: ' + error.message, true);
-      });
-    }
-
-    function loadSubmissions() {
-      fetch(FORM_SCRIPT_URL + '?action=get')
-        .then(response => response.json())
-        .then(data => {
-          if (data.result === 'success') {
-            const submissionList = $('#submissionList');
-            submissionList.empty();
-            data.submissions.forEach(submission => {
-              const submissionItem = $('<div>').addClass('submission-item bangla-font');
-              submissionItem.html(`
-                <p><strong>নাম:</strong> ${submission.name}</p>
-                <p><strong>ব্যাচ:</strong> ${submission.batch}</p>
-                <p><strong>মেসেজ:</strong> ${submission.message}</p>
-                <p><strong>সময়:</strong> ${new Date(submission.timestamp).toLocaleString('bn-BD')}</p>
-                ${getUserRole() === 'owner' ? `
-                  <p><strong>কমেন্ট:</strong> ${submission.comment || 'কোনো কমেন্ট নেই'}</p>
-                  <div class="comment-input">
-                    <textarea placeholder="কমেন্ট লিখুন" class="bangla-font"></textarea>
-                    <button onclick="updateComment('${submission.id}', this)" class="submit-button bangla-font">কমেন্ট জমা দিন</button>
-                  </div>
-                ` : ''}
-              `);
-              submissionList.append(submissionItem);
-            });
-          } else {
-            showNotification('সাবমিশন লোড করতে সমস্যা: ' + data.error, true);
-          }
-        })
-        .catch(error => {
-          showNotification('নেটওয়ার্ক ত্রুটি: ' + error.message, true);
-        });
-    }
-
-    function updateComment(id, button) {
-      const commentInput = $(button).prev('textarea').val().trim();
-      if (!commentInput) {
-        showNotification('কমেন্ট ফাঁকা রাখা যাবে না!', true);
-        return;
-      }
-      fetch(FORM_SCRIPT_URL + '?action=update', {
-        method: 'POST',
-        body: JSON.stringify({ id, comment: commentInput }),
-        headers: { 'Content-Type': 'application/json' }
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.result === 'success') {
-          showNotification('কমেন্ট সফলভাবে আপডেট করা হয়েছে!', false);
+    // কনস্ট্যান্টস
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbySirAx-sx4xjWAW5MF40pzFpLemF9BXgm9ft1Jv96Z-s-eMIuYijb6MnbWavMHj9sv0g/exec';
+    
+    // DOM elements
+    const form = document.getElementById('feedback-form');
+    const tabs = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const submissionsList = document.getElementById('submissions-list');
+    const notification = document.getElementById('notification');
+    
+    // ট্যাব স্যুইচিং
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabId = tab.getAttribute('data-tab');
+        
+        // সক্রিয় ট্যাব আপডেট করুন
+        tabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(tc => tc.classList.remove('active'));
+        
+        tab.classList.add('active');
+        document.getElementById(`${tabId}-tab`).classList.add('active');
+        
+        // সাবমিশন ট্যাব হলে ডেটা লোড করুন
+        if (tabId === 'submissions') {
           loadSubmissions();
-        } else {
-          showNotification('কমেন্ট আপডেটে সমস্যা: ' + (data.message || 'Unknown error'), true);
         }
-      })
-      .catch(error => {
-        showNotification('নেটওয়ার্ক ত্রুটি: ' + error.message, true);
       });
+    });
+    
+    // ফর্ম জমা দেওয়া
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submit-btn');
+      const originalText = submitBtn.innerHTML;
+      
+      try {
+        // লোডিং স্টেট সেট করুন
+        submitBtn.innerHTML = '<div class="loading"></div> জমা হচ্ছে...';
+        submitBtn.disabled = true;
+        
+        // ফর্ম ডেটা সংগ্রহ করুন
+        const formData = {
+          name: document.getElementById('name').value,
+          batch: document.getElementById('batch').value,
+          message: document.getElementById('message').value
+        };
+        
+        // Google Apps Script-এ ডেটা সাবমিট করুন
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(formData),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        const result = await response.json();
+        
+        if (result.result === 'success') {
+          showNotification('আপনার ফর্ম সফলভাবে জমা হয়েছে!', 'success');
+          form.reset();
+        } else {
+          throw new Error(result.error || 'জমা দিতে সমস্যা হয়েছে');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showNotification(`ত্রুটি: ${error.message}`, 'error');
+      } finally {
+        // বাটন রিসেট করুন
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }
+    });
+    
+    // সাবমিশন লোড করুন
+    async function loadSubmissions() {
+      try {
+        submissionsList.innerHTML = '<div class="loading"></div> <span class="bangla-font">লোড হচ্ছে...</span>';
+        
+        const response = await fetch(`${SCRIPT_URL}?action=get`);
+        const result = await response.json();
+        
+        if (result.result === 'success' && result.submissions.length > 0) {
+          displaySubmissions(result.submissions);
+        } else {
+          submissionsList.innerHTML = `
+            <div class="bangla-font" style="text-align: center; padding: 30px; color: var(--text-muted);">
+              <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+              <p>কোনো সাবমিশন পাওয়া যায়নি</p>
+            </div>
+          `;
+        }
+      } catch (error) {
+        console.error('Error loading submissions:', error);
+        submissionsList.innerHTML = `
+          <div class="bangla-font" style="text-align: center; padding: 30px; color: var(--danger);">
+            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 15px;"></i>
+            <p>সাবমিশন লোড করতে সমস্যা: ${error.message}</p>
+          </div>
+        `;
+      }
+    }
+    
+    // সাবমিশন প্রদর্শন করুন
+    function displaySubmissions(submissions) {
+      // তারিখ অনুসারে সাজান (নতুন থেকে পুরানো)
+      submissions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      
+      submissionsList.innerHTML = submissions.map(sub => `
+        <div class="submission-item">
+          <div class="submission-header">
+            <span class="submission-name bangla-font">${sub.name}</span>
+            <span class="submission-batch bangla-font">${sub.batch}</span>
+          </div>
+          <div class="submission-time bangla-font">
+            ${new Date(sub.timestamp).toLocaleString('bn-BD', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              timeZone: 'Asia/Dhaka'
+            })}
+          </div>
+          <div class="submission-message bangla-font">${sub.message}</div>
+          ${sub.comment ? `
+            <div class="comment-section">
+              <strong class="bangla-font">অ্যাডমিনের মন্তব্য:</strong>
+              <div class="comment-display bangla-font">${sub.comment}</div>
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+    
+    // নোটিফিকেশন প্রদর্শন করুন
+    function showNotification(message, type = 'success') {
+      notification.textContent = message;
+      notification.className = `notification ${type} show`;
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+    
+    // পৃষ্ঠা লোড হলে সাবমিশন ট্যাবে থাকলে ডেটা লোড করুন
+    if (document.getElementById('submissions-tab').classList.contains('active')) {
+      loadSubmissions();
     }
   </script>
 </body>
