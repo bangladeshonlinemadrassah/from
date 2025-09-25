@@ -9,29 +9,21 @@
 
   <button onclick="sendData()">Send to Google Sheet</button>
 
-  <script>
-  function sendData() {
-    fetch("https://script.google.com/macros/s/AKfycbwh4HZA4gt0cWRkqYkGWbgqvWVeqaRCybJMOZXlDK82s2qGSyInBY8nmSBK1UtDVsLzUQ/exec", {
-      method: "POST",
-      body: JSON.stringify({
-        name: "Sahibul Musa Sium",
-        batch: "Alim-26",
-        message: "Hello! মোবাইল থেকে fetch() কাজ করছে।"
-      }),
-      headers: {
-        "Content-Type": "application/json"
-      }
+  <button onclick="sendData()">Send</button>
+
+<script>
+function sendData() {
+  fetch("https://script.google.com/macros/s/AKfycbyhF1MbIgfLLiox5IlVxztrUZCN9sxEBtj5-4IfypATarCnm7tbMpr-9Omb0DY8eP9hzg/exec", {
+    method: "POST",
+    body: JSON.stringify({
+      name: "Sahibul Musa Sium",
+      message: "Debugging Test"
     })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      alert("Response: " + data.status);
-    })
-    .catch(err => {
-      console.error("Error:", err);
-      alert("Error: " + err);
-    });
-  }
-  </script>
+  })
+  .then(res => res.text())
+  .then(txt => alert("Server Response: " + txt))
+  .catch(err => alert("Fetch Error: " + err));
+}
+</script>
 </body>
 </html>
