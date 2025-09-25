@@ -1,113 +1,37 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form Submission</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      padding: 20px;
-    }
-    .container {
-      max-width: 500px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-    }
-    input, select, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
-    }
-    button {
-      background: #4CAF50;
-      color: white;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #45a049;
-    }
-    .notification {
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 6px;
-      display: none;
-    }
-    .success {
-      background: #d4edda;
-      color: #155724;
-    }
-    .error {
-      background: #f8d7da;
-      color: #721c24;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Google Sheet Fetch Test</title>
 </head>
 <body>
-  <div class="container">
-    <h2>ডেটা সাবমিশন ফর্ম</h2>
-    <form id="myForm">
-      <input type="text" name="name" placeholder="আপনার নাম" required>
-      <select name="batch" required>
-        <option value="">ব্যাচ সিলেক্ট করুন</option>
-        <option value="Batch-1">Batch-1</option>
-        <option value="Batch-2">Batch-2</option>
-      </select>
-      <textarea name="message" placeholder="আপনার মেসেজ লিখুন" required></textarea>
-      <button type="submit">জমা দিন</button>
-    </form>
-    <div id="notification" class="notification"></div>
-  </div>
+  <h2>Google Sheet এ ডেটা পাঠান</h2>
+
+  <button onclick="sendData()">Send to Google Sheet</button>
 
   <script>
-    // এখানে আপনার Google Apps Script Web App URL বসান
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxR2jk_XiHN6umYa0FimLpQ6xlpzOyp3iAcXtZhVkdqlQgIZSpGOg4f9K9QMOP-G6d2MQ/exec";
-
-    document.getElementById("myForm").addEventListener("submit", submitForm);
-
-    function submitForm(e){
-      e.preventDefault();
-      const form = e.target;
-      const data = {
-        name: form.name.value.trim(),
-        batch: form.batch.value,
-        message: form.message.value.trim()
-      };
-
-      fetch(WEB_APP_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      })
-      .then(res => res.json())
-      .then(result => {
-        if(result.status === "success"){
-          showNotification("✅ ডেটা সফলভাবে জমা হয়েছে!", false);
-          form.reset();
-        } else {
-          showNotification("❌ ডেটা জমা হয়নি! আবার চেষ্টা করুন।", true);
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        showNotification("⚠️ সংযোগে সমস্যা হচ্ছে!", true);
-      });
-    }
-
-    function showNotification(msg, isError){
-      const n = document.getElementById("notification");
-      n.innerText = msg;
-      n.className = "notification " + (isError ? "error" : "success");
-      n.style.display = "block";
-      setTimeout(()=> n.style.display="none", 4000);
-    }
+  function sendData() {
+    fetch("https://script.google.com/macros/s/AKfycbxR2jk_XiHN6umYa0FimLpQ6xlpzOyp3iAcXtZhVkdqlQgIZSpGOg4f9K9QMOP-G6d2MQ/exec", {
+      method: "POST",
+      body: JSON.stringify({
+        name: "Sahibul Musa Sium",
+        batch: "Alim-26",
+        message: "Hello! মোবাইল থেকে fetch() কাজ করছে।"
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      alert("Response: " + data.status);
+    })
+    .catch(err => {
+      console.error("Error:", err);
+      alert("Error: " + err);
+    });
+  }
   </script>
 </body>
 </html>
